@@ -16,10 +16,9 @@ class Settings extends Model
         'money_max', 'money_min', 'money_limit', 'mana_min', 'mana_max', 'conversion_coef'
     ];
 
-    // Generate new game results
+    // Change available money limit
     public function change_money_limit($value)
     {
-
         $this->money_limit = $this->money_limit - $value;
 
         return true;

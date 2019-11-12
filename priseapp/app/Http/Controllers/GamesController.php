@@ -12,7 +12,17 @@ class GamesController extends Controller
 {
     //
     /**
-     * Create new Prise
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
+     * Generate data for new Game
      *
      * @return Redirect
      */
@@ -33,7 +43,7 @@ class GamesController extends Controller
     }
 
     /**
-     * Create new Prise
+     * Save new game results
      *
      * @return Redirect
      */
@@ -47,7 +57,7 @@ class GamesController extends Controller
     }
 
     /**
-     * Create new Prise
+     * Convert money prise to mana
      *
      * @return Redirect
      */
@@ -61,23 +71,17 @@ class GamesController extends Controller
         
         $current_game->save();
 
-        // $id = Auth::user()->id;
-        // $user = User::find($id);
-        // $user->add_mana($current_game->prise_value);
-        // $user->save();
-
         session(['game' => null]);
         return redirect('games/new');
     }
 
     /**
-     * Show prises in system
+     * Show game screen
      *
      * @return View
      */
     public function new()
     {
-
         $id = Auth::user()->id;
         $user = User::find($id);
         $your_mana = $user->mana;
@@ -93,7 +97,7 @@ class GamesController extends Controller
     }
 
     /**
-     * Show prises in system
+     * Show games in system
      *
      * @return View
      */

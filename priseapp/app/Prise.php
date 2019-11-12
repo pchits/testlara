@@ -16,9 +16,9 @@ class Prise extends Model
         'name', 'quantity'
     ];
 
-    // Generate new game results
-    public function update_stock($value) {
-
+    // Update stock
+    public function update_stock($value)
+    {
         $this->quantity = $this->quantity - $value;
     }
 

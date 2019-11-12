@@ -11,6 +11,7 @@ use App\Settings;
 class Game extends Model
 {
     //
+    // Available prise types
     protected $prise_types = ['money', 'mana', 'real'];
 
     /**
@@ -32,17 +33,20 @@ class Game extends Model
         return $this->belongsTo('App\Prise');
     }
 
+    // Make actions before saving game
     public function save(array $options = [])
     {
-
+        // Send mana to user account
         if (($this->prise_type == 'mana') && ($this->status == 'NEW')) {
+
             $this->status = 'APPLIED';
             $id = Auth::user()->id;
             $user = User::find($id);
             $user->add_mana($this->prise_value);
             $user->save();
+
         }
-        
+        // Change money limit and prepare for data sending with condole comand
         if (($this->prise_type == 'money') && ($this->status == 'NEW')) {
 
             $settings = Settings::findOrFail(1);
@@ -50,7 +54,7 @@ class Game extends Model
             $settings->save();
 
         }
-
+        // Update real prise stock
         if (($this->prise_type == 'real') && ($this->status == 'NEW')) {
 
             $prise = Prise::find($this->prise_id);
@@ -73,7 +77,7 @@ class Game extends Model
         
         if ($type == 'money') {
             $value = mt_rand($money_limits[0], $money_limits[1]);
-            //we can't give this prise
+            //We can't give this prise
             if ($money_stock < $value) {
                 $this->generate($money_limits, $mana_limits, $money_stock);
             }
@@ -87,11 +91,10 @@ class Game extends Model
                 ->where('quantity', '>=', 1)
                 ->inRandomOrder()
                 ->first();
-            // $query = Prise::where('quantity', '>=', 188)->orderByRandom()->first();
-            // var_dump($prise);
-            //we don't have prises
+            
+            // We don't have prises
             if ($prise === NULL) {
-                //we can't give this prise
+                //We can't give this prise
                 $this->generate($money_limits, $mana_limits, $money_stock);
             }
             else {

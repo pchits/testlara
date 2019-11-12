@@ -15,8 +15,9 @@ class SettingsController extends Controller
      */
     public function store(Request $request)
     {
+        //there could be only one
         $settings = Settings::find(1);
-        if ($settings === NULL) {
+        if ($settings === NULL) {//if someone forget about seeding
             $settings = new Settings;
         }
 

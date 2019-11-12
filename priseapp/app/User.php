@@ -42,10 +42,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Game');
     }
 
-    // Generate new game results
+    // Add mana to user account
     public function add_mana($value)
     {
-
         $this->mana += $value;
     }
 }
